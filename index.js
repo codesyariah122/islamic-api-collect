@@ -20,13 +20,6 @@ server.get('/', (req, res) => {
 	res.sendFile(path.join(`${__dirname}/public/index.html`))
 })
 
-server.get('/api', (req, res) => {
-  const path = `/api/islamic/v1/`;
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
-
 server.use('/api/islamic/v1/:token/:country/:city/:page', cors(allowOrigins), waktuShalat)
 
 server.listen(process.env.PORT, () => {
