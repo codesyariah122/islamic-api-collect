@@ -3,15 +3,18 @@ import dotenv from 'dotenv'
 import axios from 'axios'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import path from 'path'
+import fs from 'fs'
+import path, {dirname} from 'path'
+import {fileURLToPath} from 'url'
 import {waktuShalat} from './api/shalat.js'
 
 dotenv.config()
 
 const server = express()
 const allowOrigins = {origin: '*'}
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
-server.use(express.static('public'))
+server.use(express.static(path.join(__dirname, '/public')))
 server.set(cors, allowOrigins)
 server.set(bodyParser.json())
 const urlEncodedParser = server.set(bodyParser.urlencoded({extended: true}))
