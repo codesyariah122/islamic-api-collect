@@ -3,7 +3,6 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 
-const router = express.Router();
 const token = process.env.API_TOKEN;
 
 export async function waktuShalat(req, res) {
