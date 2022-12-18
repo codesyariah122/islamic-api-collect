@@ -1,13 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import axios from "axios";
 import bodyParser from "body-parser";
 import cors from "cors";
-import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { waktuShalat } from "./api/shalat.js";
 import { yourLocation } from "./api/location.js";
+import consola from "consola";
 
 dotenv.config();
 
@@ -33,5 +32,7 @@ server.use(
 server.use("/api/location/:token/:key", cors(allowOrigins), yourLocation);
 
 server.listen(process.env.PORT, () => {
-  console.log("Server is now running");
+  consola.ready(
+    `Server is now running on http://localhost:${process.env.PORT}`
+  );
 });
