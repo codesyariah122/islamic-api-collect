@@ -29,7 +29,11 @@ server.use(
   waktuShalat
 );
 
-server.use("/api/location/:token/:key", cors(allowOrigins), yourLocation);
+server.use(
+  "/api/islamic/v1/location/:token/:key",
+  cors(allowOrigins),
+  yourLocation
+);
 
 server.listen(process.env.PORT, () => {
   consola.ready(
