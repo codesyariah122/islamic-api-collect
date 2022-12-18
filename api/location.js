@@ -26,12 +26,10 @@ const recallSuccessfuly = async (res, endpoint, config) => {
       }
     })
     .catch((err) => {
-      res
-        .json({
-          message: "Your location detected error request",
-          data: err,
-        })
-        .status(304);
+      res.json({
+        message: "Your location detected error request",
+        data: err,
+      });
     });
 };
 
