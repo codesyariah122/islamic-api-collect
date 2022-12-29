@@ -12,64 +12,47 @@ const configHeaders = {
   },
 };
 
-const recallSuccessfuly = async (res, endpoint, config) => {
-  await axios
-    .get(endpoint, config)
-    .then((response) => {
-      if (response.data.ip) {
-        res
-          .json({
-            message: "Your location is detected",
-            data: response.data,
-          })
-          .status(200);
-      }
-    })
-    .catch((err) => {
-      res.json({
-        message: "Your location detected error request",
-        data: err,
-      });
-    });
-};
-
 function checkValidRequest(params) {
   return params.token === token && params.key === geoKey;
 }
 
-function returnResponse(res, status) {
-  switch (status) {
-    case 304:
-      res
-        .json({
-          message: "Please field valid key or token",
-        })
-        .status(status);
-      break;
-
-    case 200:
-      const endPoint = `${baseUrl}?apiKey=${geoKey}`;
-      recallSuccessfuly(res, endPoint, configHeaders);
-      break;
-  }
-}
-
-export function yourLocation(req, res) {
+export async function yourLocation(req, res) {
   try {
     const params = {
       token: req.params.token,
       key: req.params.key,
     };
 
-    if (!checkValidRequest(params)) returnResponse(res, 304);
+    if (!checkValidRequest(params)) {
+      return res.status(404).json({
+        message: "Please field valid key or token",
+      });
+    }
 
-    returnResponse(res, 200);
-  } catch (err) {
-    res
-      .json({
-        message: "Error fetch data",
-        data: err,
+    const endPoint = `${baseUrl}?apiKey=${geoKey}`;
+
+    await axios
+      .get(endPoint, configHeaders)
+      .then((response) => {
+        if (response.data.ip) {
+          res
+            .json({
+              message: "Your location is detected",
+              data: response.data,
+            })
+            .status(200);
+        }
       })
-      .status(404);
+      .catch((err) => {
+        res.json({
+          message: "Your location detected error request",
+          data: err,
+        });
+      });
+  } catch (err) {
+    res.status(404).json({
+      message: "Error fetch data",
+      data: err.message,
+    });
   }
 }
