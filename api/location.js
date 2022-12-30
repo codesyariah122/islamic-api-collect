@@ -21,6 +21,7 @@ export async function yourLocation(req, res) {
     const params = {
       token: req.params.token,
       key: req.params.key,
+      ip: req.params.ip,
     };
 
     if (!checkValidRequest(params)) {
@@ -29,7 +30,7 @@ export async function yourLocation(req, res) {
       });
     }
 
-    const endPoint = `${baseUrl}?apiKey=${geoKey}`;
+    const endPoint = `${baseUrl}?apiKey=${params.key}&ip=${req.params.ip}`;
 
     await axios
       .get(endPoint, configHeaders)
@@ -44,10 +45,12 @@ export async function yourLocation(req, res) {
         }
       })
       .catch((err) => {
-        res.json({
-          message: "Your location detected error request",
-          data: err,
-        });
+        res
+          .json({
+            message: "Your location detected error request",
+            data: err.message,
+          })
+          .status(401);
       });
   } catch (err) {
     res.status(404).json({
