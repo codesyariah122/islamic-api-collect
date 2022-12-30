@@ -23,11 +23,11 @@ server.get("/", (req, res) => {
   res.sendFile(path.join(`${__dirname}/public/index.html`));
 });
 
-server.use(
-  "/api/islamic/v1/:token/:country/:city/:page",
-  cors(allowOrigins),
-  waktuShalat
-);
+// server.use(
+//   "/api/islamic/v1/:token/:country/:city/:page",
+//   cors(allowOrigins),
+//   waktuShalat
+// );
 
 server.use(
   "/api/islamic/v1/location/:token/:key/:ip",
