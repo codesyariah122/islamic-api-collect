@@ -30,7 +30,7 @@ server.use(
 );
 
 server.use(
-  "/api/islamic/v1/location/:token/:key/:ip",
+  "/api/islamic/location/:token/:key/:ip",
   cors(allowOrigins),
   yourLocation
 );

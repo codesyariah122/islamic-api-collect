@@ -30,7 +30,9 @@ export async function yourLocation(req, res) {
       });
     }
 
-    const endPoint = `${baseUrl}?apiKey=${params.key}&ip=${req.params.ip}`;
+    let endPoint = req.params.ip
+      ? `${baseUrl}?apiKey=${params.key}&ip=${req.params.ip}`
+      : `${baseUrl}?apiKey=${params.key}`;
 
     await axios
       .get(endPoint, configHeaders)
